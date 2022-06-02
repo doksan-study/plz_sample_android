@@ -1,5 +1,6 @@
 package com.example.viewmodelbasicsimple.service
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -9,8 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://run.mocky.io"
 
-    val interceptorClient = OkHttpClient().newBuilder().addInterceptor(RequestInterceptor())
+    private val interceptorClient = OkHttpClient().newBuilder().addInterceptor(RequestInterceptor())
         .addInterceptor(ResponseInterceptor()).build()
+
+//    private val interceptorClient = OkHttpClient().newBuilder().addInterceptor(LoggingInterceptor()).build()
 
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -18,6 +21,27 @@ object RetrofitClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+}
+const val TAG = "RETROFIT_CLIENT_TAG"
+/**
+ * Sample For OkHttp Interceptors
+ * From. https://square.github.io/okhttp/features/interceptors/
+ */
+
+class LoggingInterceptor : Interceptor{
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+
+        val t1 = System.nanoTime()
+        Log.d(TAG, "Sending request ${request.url()} on ${chain.connection()} \n${request.headers()} ")
+
+        val response = chain.proceed(request)
+
+        val t2 = System.nanoTime()
+        Log.d(TAG, "Received response for ${response.request().url()} in ${(t2 - t1)/1e6} \n${response.headers()}")
+
+        return response
+    }
 }
 
 class RequestInterceptor : Interceptor {
