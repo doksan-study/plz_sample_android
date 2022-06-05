@@ -1,34 +1,53 @@
 package com.example.viewmodelbasicsimple.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodelbasicsimple.model.Product
+import com.example.viewmodelbasicsimple.model.ProductDto
+import com.example.viewmodelbasicsimple.service.ProductService
 import com.example.viewmodelbasicsimple.service.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class ProductViewModel(private val productId: Int) : ViewModel() {
-
-    private var _product: Product
-    val product: Product
+    private val retrofit = RetrofitClient.retrofit
+    private val _product: MutableLiveData<Product> by lazy {
+        MutableLiveData<Product>().also{
+            loadProduct()
+        }
+    }
+    val product: LiveData<Product>
         get() = _product
 
     // 댓글에 대한 LiveData 필요
 
     init {
-        _product = loadProduct()
         loadComments()
     }
 
-    private fun loadProduct(): Product {
-        var id: Int = 0
-        var name: String = "test Product"
-        var description: String = "test description"
-        var price: Int = 2000
+    private fun loadProduct() {
+        retrofit.create(ProductService::class.java).getProduct()
+            .enqueue(object : Callback<Product> {
+                override fun onResponse(call: Call<Product>, response: Response<Product>) {
+                    if (response.isSuccessful.not()) {
+                        Log.d(TAG, "onResponse: $response")
+                        return
+                    }
+                    _product.postValue(response.body()!!)
+                }
 
-        val retrofit = RetrofitClient.retrofit
+                override fun onFailure(call: Call<Product>, t: Throwable) {
+                    Log.e(TAG, "onFailure: $t")
+                }
 
-        return Product(productId, name, description, price)
+            })
+
+
     }
 
     private fun loadComments() {
@@ -42,5 +61,9 @@ class ProductViewModel(private val productId: Int) : ViewModel() {
             }
             throw IllegalArgumentException("Unknown ViewModel Class")
         }
+    }
+
+    companion object {
+        const val TAG = "ProductViewModel-TAG"
     }
 }

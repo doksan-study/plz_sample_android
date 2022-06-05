@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity() {
 
     /** Shows the product detail fragment  */
     fun show(product: Product) {
-        val productFragment: ProductFragment = ProductFragment(product.id)
+        val productFragment = ProductFragment(product.id)
         supportFragmentManager.beginTransaction()
+            .addToBackStack("product")
             .replace(R.id.fragment_container, productFragment, null).commit()
     }
 }

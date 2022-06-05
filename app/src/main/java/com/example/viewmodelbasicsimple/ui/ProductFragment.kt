@@ -22,7 +22,7 @@ class ProductFragment(private val productId: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             inflater,
@@ -41,11 +41,18 @@ class ProductFragment(private val productId: Int) : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductViewModel::class.java)
 
-        subscribeUi(viewModel)
+//        binding.productViewModel = viewModel
+        subscribeToModel(viewModel)
     }
 
-    private fun subscribeUi(viewModel: ProductViewModel) {
+    private fun subscribeToModel(viewModel: ProductViewModel) {
+        viewModel.product.observe(viewLifecycleOwner){ product ->
+            if (product != null){
+                binding.productViewModel = viewModel
+            }else{
 
+            }
+        }
     }
 
 }
