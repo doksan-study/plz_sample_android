@@ -1,13 +1,14 @@
 package com.example.viewmodelbasicsimple.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodelbasicsimple.R
@@ -28,14 +29,17 @@ class ProductListFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
 
-        productAdapter = ProductAdapter{productClickCallback()}
+        productAdapter = ProductAdapter {product -> productClickCallback(product) }
         binding.productList.adapter = productAdapter
         return binding.root
     }
 
-    private fun productClickCallback(){
-        Toast.makeText(requireContext(), "item was clicked...", Toast.LENGTH_SHORT).show()
+    private fun productClickCallback(product: Product) {
+        if(lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)){
+            (requireActivity() as MainActivity).show(product)
+        }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,12 +55,12 @@ class ProductListFragment : Fragment() {
 
     private fun subscribeUi(liveData: LiveData<List<Product>>) {
         // Update the List when the data changes
-        liveData.observe(viewLifecycleOwner){ products ->
-            if (products != null){
+        liveData.observe(viewLifecycleOwner) { products ->
+            if (products != null) {
 //                binding.isLoading = false
                 binding.loadingTv.isVisible = false
                 productAdapter.submitList(products)
-            }else{
+            } else {
 //                binding.isLoading = true
                 binding.loadingTv.isVisible = true
             }

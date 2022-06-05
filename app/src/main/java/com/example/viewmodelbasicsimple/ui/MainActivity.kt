@@ -1,9 +1,9 @@
 package com.example.viewmodelbasicsimple.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.viewmodelbasicsimple.R
+import com.example.viewmodelbasicsimple.model.Product
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,5 +13,12 @@ class MainActivity : AppCompatActivity() {
         val fragment = ProductListFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment).commit()
+    }
+
+    /** Shows the product detail fragment  */
+    fun show(product: Product) {
+        val productFragment: ProductFragment = ProductFragment(product.id)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, productFragment, null).commit()
     }
 }

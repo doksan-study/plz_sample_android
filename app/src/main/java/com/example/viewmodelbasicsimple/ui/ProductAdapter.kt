@@ -8,18 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.viewmodelbasicsimple.databinding.ProductItemBinding
 import com.example.viewmodelbasicsimple.model.Product
 
-class ProductAdapter(private val clickCallback: () -> Unit) : ListAdapter<Product, ProductAdapter.ViewHolder>(diffUtil) {
+class ProductAdapter(private val clickCallback: (Product) -> Unit) :
+    ListAdapter<Product, ProductAdapter.ViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ProductItemBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false))
+        return ViewHolder(
+            ProductItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             product = currentList[position]
-            root.setOnClickListener { clickCallback.invoke() }
+            root.setOnClickListener { clickCallback.invoke(currentList[position]) }
         }
     }
 

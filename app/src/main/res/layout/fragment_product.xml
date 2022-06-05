@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="productViewModel"
+            type="com.example.viewmodelbasicsimple.viewmodel.ProductViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.ProductFragment">
+
+        <include
+            layout="@layout/product_item"
+            app:product="@{productViewModel.product}" />
+    </LinearLayout>
+</layout>
