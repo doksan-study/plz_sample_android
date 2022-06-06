@@ -6,27 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodelbasicsimple.model.Product
-import com.example.viewmodelbasicsimple.model.ProductDto
 import com.example.viewmodelbasicsimple.service.ProductService
 import com.example.viewmodelbasicsimple.service.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class ProductViewModel(private val productId: Int) : ViewModel() {
     private val retrofit = RetrofitClient.retrofit
-    private val _product: MutableLiveData<Product> by lazy {
-        MutableLiveData<Product>().also{
-            loadProduct()
-        }
-    }
+    private var _product: MutableLiveData<Product> = MutableLiveData<Product>()
+
     val product: LiveData<Product>
         get() = _product
 
-    // 댓글에 대한 LiveData 필요
+    // todo 댓글에 대한 LiveData 필요
 
     init {
+        loadProduct()
         loadComments()
     }
 

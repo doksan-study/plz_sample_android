@@ -41,15 +41,16 @@ class ProductFragment(private val productId: Int) : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductViewModel::class.java)
 
-//        binding.productViewModel = viewModel
-        subscribeToModel(viewModel)
+        binding.lifecycleOwner = this
+        binding.productViewModel = viewModel
+//        subscribeToModel(viewModel)
     }
 
     private fun subscribeToModel(viewModel: ProductViewModel) {
-        viewModel.product.observe(viewLifecycleOwner){ product ->
-            if (product != null){
+        viewModel.product.observe(viewLifecycleOwner) { product ->
+            if (product != null) {
                 binding.productViewModel = viewModel
-            }else{
+            } else {
 
             }
         }
