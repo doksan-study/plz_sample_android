@@ -18,8 +18,11 @@ class MainActivity : AppCompatActivity() {
     /** Shows the product detail fragment  */
     fun show(product: Product) {
         val productFragment = ProductFragment(product.id)
+
+        /** You can keep a record of these changes in a back stack that is managed by the activity, allowing the changes to be reversed. */
         supportFragmentManager.beginTransaction()
             .addToBackStack("product")
-            .replace(R.id.fragment_container, productFragment, null).commit()
+            .replace(R.id.fragment_container, productFragment, null)
+            .commit()
     }
 }

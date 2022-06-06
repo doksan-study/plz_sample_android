@@ -35,6 +35,7 @@ class ProductListFragment : Fragment() {
     }
 
     private fun productClickCallback(product: Product) {
+        /** While your activity is in the STARTED lifecycle state or higher, fragments can be added, replaced, or removed. */
         if(lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)){
             (requireActivity() as MainActivity).show(product)
         }
