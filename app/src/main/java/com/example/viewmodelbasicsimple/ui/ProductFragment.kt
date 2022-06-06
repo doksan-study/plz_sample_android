@@ -42,6 +42,14 @@ class ProductFragment(private val productId: Int) : Fragment() {
             .get(ProductViewModel::class.java)
 
         binding.lifecycleOwner = this
+        // Specify the current fragment as the lifecycle owner
+        // `LiveData`는 데이터 변경을 구독하는 관찰자의 수면 주기를 알고 있다.
+        // Binding 클래스와 함께 `LiveData` 객체를 사용하려면, 수명 주기 소유자를 지정하여 `LiveData` 객체의 범위를 정의해야한다.
+        /**
+         * binding.lifecycleOwner used for observing LiveData with data binding.
+         * Kind of android:text=@{viewModel.text} where val text:LiveData<String>.
+         * View will observe text changes at runtime.
+         */
         binding.productViewModel = viewModel
 //        subscribeToModel(viewModel)
     }
