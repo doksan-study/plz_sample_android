@@ -33,20 +33,20 @@ class ProductListViewModel : ViewModel() {
                     response: Response<ProductDto>,
                 ) {
                     if (!response.isSuccessful) {
-                        Log.d("ProductListViewModel", "onResponse: Response Fail")
+                        Log.d(TAG, "onResponse: Response Fail")
                         return
                     }
 
                     response.body()?.let {
                         _products.postValue(it.items)
-                        it.items.forEachIndexed { idx, product ->
-                            Log.d("ProductListViewModel", "PRODUCT[$idx]: ${product.name}")
-                        }
+//                        it.items.forEachIndexed { idx, product ->
+//                            Log.d(TAG, "PRODUCT[$idx]: ${product.name}")
+//                        }
                     }
                 }
 
                 override fun onFailure(call: Call<ProductDto>, t: Throwable) {
-                    Log.d("ProductListViewModel", "onFailure: $t")
+                    Log.d(TAG, "onFailure: $t")
 
                 }
             })
@@ -57,5 +57,7 @@ class ProductListViewModel : ViewModel() {
         return ArrayList<Product>();
     }
 
-
+    companion object{
+        const val TAG = "Product_LIST_VIEW_MODEL-TAG"
+    }
 }
