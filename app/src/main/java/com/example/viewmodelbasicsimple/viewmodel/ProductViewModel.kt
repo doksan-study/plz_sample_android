@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodelbasicsimple.model.Product
+import com.example.viewmodelbasicsimple.model.ResponseModelDto
 import com.example.viewmodelbasicsimple.service.ProductService
 import com.example.viewmodelbasicsimple.service.RetrofitClient
 import retrofit2.Call
@@ -26,23 +27,32 @@ class ProductViewModel(private val productId: Int) : ViewModel() {
         loadComments()
     }
 
-    private fun loadProduct() {
-        retrofit.create(ProductService::class.java).getProduct()
-            .enqueue(object : Callback<Product> {
-                override fun onResponse(call: Call<Product>, response: Response<Product>) {
+    private fun loadProduct() : Product?{
+        var resultProduct : Product? = null
+        retrofit.create(ProductService::class.java).getProduct(productId)
+            .enqueue(object : Callback<ResponseModelDto<Product>> {
+                override fun onResponse(
+                    call: Call<ResponseModelDto<Product>>,
+                    response: Response<ResponseModelDto<Product>>
+                ) {
                     if (response.isSuccessful.not()) {
                         Log.d(TAG, "onResponse: $response")
                         return
                     }
-                    _product.postValue(response.body()!!)
+                    response.body()?.let { dto ->
+                        Log.d(TAG, "onResponse: >> \t${response.body()!!}")
+                        _product.postValue(dto.item)
+                        resultProduct = dto.item
+                    }
                 }
 
-                override fun onFailure(call: Call<Product>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseModelDto<Product>>, t: Throwable) {
                     Log.e(TAG, "onFailure: $t")
                 }
 
             })
 
+        return resultProduct
 
     }
 

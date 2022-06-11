@@ -2,16 +2,23 @@ package com.example.viewmodelbasicsimple.service
 
 import com.example.viewmodelbasicsimple.model.Product
 import com.example.viewmodelbasicsimple.model.ProductDto
+import com.example.viewmodelbasicsimple.model.ResponseListModelDto
+import com.example.viewmodelbasicsimple.model.ResponseModelDto
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ProductService {
-    // https://run.mocky.io/v3/9fb33b80-8b3a-4c9f-b608-764bc60eae98
-    @GET("v3/9fb33b80-8b3a-4c9f-b608-764bc60eae98")
-    fun getProducts(): Call<ProductDto>
+    @GET("product/list")
+    fun getProducts(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): Call<ResponseListModelDto<Product>>
 
-    // https://run.mocky.io/v3/8690f99b-3ddb-4051-bb4d-60133f651ae2
-    @GET("v3/8690f99b-3ddb-4051-bb4d-60133f651ae2")
-    fun getProduct(): Call<Product>
+    @GET("product/{productId}")
+    fun getProduct(
+        @Path("productId") productId: Int
+    ): Call<ResponseModelDto<Product>>
 
 }

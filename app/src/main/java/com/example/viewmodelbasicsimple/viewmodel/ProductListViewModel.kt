@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.viewmodelbasicsimple.model.Product
 import com.example.viewmodelbasicsimple.model.ProductDto
+import com.example.viewmodelbasicsimple.model.ResponseListModelDto
 import com.example.viewmodelbasicsimple.service.ProductService
 import com.example.viewmodelbasicsimple.service.RetrofitClient
 import retrofit2.Call
@@ -26,11 +27,11 @@ class ProductListViewModel : ViewModel() {
     private fun loadProducts() {
         // REST API retrofit
         val retrofit = RetrofitClient.retrofit
-        retrofit.create(ProductService::class.java).getProducts()
-            .enqueue(object : Callback<ProductDto> {
+        retrofit.create(ProductService::class.java).getProducts(1, 2)
+            .enqueue(object : Callback<ResponseListModelDto<Product>> {
                 override fun onResponse(
-                    call: Call<ProductDto>,
-                    response: Response<ProductDto>,
+                    call: Call<ResponseListModelDto<Product>>,
+                    response: Response<ResponseListModelDto<Product>>,
                 ) {
                     if (!response.isSuccessful) {
                         Log.d(TAG, "onResponse: Response Fail")
@@ -39,13 +40,13 @@ class ProductListViewModel : ViewModel() {
 
                     response.body()?.let {
                         _products.postValue(it.items)
-//                        it.items.forEachIndexed { idx, product ->
-//                            Log.d(TAG, "PRODUCT[$idx]: ${product.name}")
-//                        }
+                        it.items.forEachIndexed { idx, product ->
+                            Log.d(TAG, "PRODUCT[$idx]: ${product.name}")
+                        }
                     }
                 }
 
-                override fun onFailure(call: Call<ProductDto>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseListModelDto<Product>>, t: Throwable) {
                     Log.d(TAG, "onFailure: $t")
 
                 }

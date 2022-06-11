@@ -46,7 +46,7 @@ class ProductFragment(private val productId: Int) : Fragment() {
         productViewModelFactory = ProductViewModel.ViewModelFactory(productId)
         productViewModel = ViewModelProvider(this, productViewModelFactory)
             .get(ProductViewModel::class.java)
-        commentListViewModel = ViewModelProvider(this).get(CommentListViewModel::class.java)
+//        commentListViewModel = ViewModelProvider(this).get(CommentListViewModel::class.java)
 
         binding.lifecycleOwner = this
         // Specify the current fragment as the lifecycle owner
@@ -58,19 +58,19 @@ class ProductFragment(private val productId: Int) : Fragment() {
          * View will observe text changes at runtime.
          */
         binding.productViewModel = productViewModel
-        subscribeToComments(commentListViewModel.comments)
+//        subscribeToComments(commentListViewModel.comments)
     }
 
-    private fun subscribeToComments(comments: LiveData<List<Comment>>) {
-        comments.observe(viewLifecycleOwner){it ->
-            if (it != null){
-                commentAdapter.submitList(it)
-            }
-            else{
-
-            }
-            binding.executePendingBindings()
-        }
-    }
+//    private fun subscribeToComments(comments: LiveData<List<Comment>>) {
+//        comments.observe(viewLifecycleOwner){it ->
+//            if (it != null){
+//                commentAdapter.submitList(it)
+//            }
+//            else{
+//
+//            }
+//            binding.executePendingBindings()
+//        }
+//    }
 
 }

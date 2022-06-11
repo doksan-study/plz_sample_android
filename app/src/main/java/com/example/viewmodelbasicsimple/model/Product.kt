@@ -6,9 +6,5 @@ data class Product(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
-    @SerializedName("price") val price: Int,
-)
-
-data class ProductDto(
-    @SerializedName("items") val items: ArrayList<Product>,
+    @SerializedName("cost") val price: Int,
 )
