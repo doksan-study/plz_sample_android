@@ -10,14 +10,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodelbasicsimple.R
 import com.example.viewmodelbasicsimple.databinding.FragmentProductBinding
-import com.example.viewmodelbasicsimple.model.Product
+import com.example.viewmodelbasicsimple.model.Comment
+import com.example.viewmodelbasicsimple.viewmodel.CommentListViewModel
 import com.example.viewmodelbasicsimple.viewmodel.ProductViewModel
 
 class ProductFragment(private val productId: Int) : Fragment() {
 
     private lateinit var binding: FragmentProductBinding
-    private lateinit var viewModel: ProductViewModel
-    private lateinit var viewModelFactory: ProductViewModel.ViewModelFactory
+    private lateinit var productViewModel: ProductViewModel
+    private lateinit var productViewModelFactory: ProductViewModel.ViewModelFactory
+    private lateinit var commentListViewModel: CommentListViewModel
+    private lateinit var commentAdapter: CommentAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,15 +34,19 @@ class ProductFragment(private val productId: Int) : Fragment() {
             false
         )
 
+        commentAdapter = CommentAdapter()
+        binding.commentList.adapter = commentAdapter
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModelFactory = ProductViewModel.ViewModelFactory(productId)
-        viewModel = ViewModelProvider(this, viewModelFactory)
+        productViewModelFactory = ProductViewModel.ViewModelFactory(productId)
+        productViewModel = ViewModelProvider(this, productViewModelFactory)
             .get(ProductViewModel::class.java)
+        commentListViewModel = ViewModelProvider(this).get(CommentListViewModel::class.java)
 
         binding.lifecycleOwner = this
         // Specify the current fragment as the lifecycle owner
@@ -50,17 +57,19 @@ class ProductFragment(private val productId: Int) : Fragment() {
          * Kind of android:text=@{viewModel.text} where val text:LiveData<String>.
          * View will observe text changes at runtime.
          */
-        binding.productViewModel = viewModel
-//        subscribeToModel(viewModel)
+        binding.productViewModel = productViewModel
+        subscribeToComments(commentListViewModel.comments)
     }
 
-    private fun subscribeToModel(viewModel: ProductViewModel) {
-        viewModel.product.observe(viewLifecycleOwner) { product ->
-            if (product != null) {
-                binding.productViewModel = viewModel
-            } else {
+    private fun subscribeToComments(comments: LiveData<List<Comment>>) {
+        comments.observe(viewLifecycleOwner){it ->
+            if (it != null){
+                commentAdapter.submitList(it)
+            }
+            else{
 
             }
+            binding.executePendingBindings()
         }
     }
 
