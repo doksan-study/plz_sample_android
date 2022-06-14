@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.viewmodelbasicsimple.model.Product
-import com.example.viewmodelbasicsimple.model.ProductDto
 import com.example.viewmodelbasicsimple.model.ResponseListModelDto
 import com.example.viewmodelbasicsimple.service.ProductService
 import com.example.viewmodelbasicsimple.service.RetrofitClient

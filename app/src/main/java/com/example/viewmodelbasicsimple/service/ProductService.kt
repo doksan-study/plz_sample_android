@@ -1,7 +1,6 @@
 package com.example.viewmodelbasicsimple.service
 
 import com.example.viewmodelbasicsimple.model.Product
-import com.example.viewmodelbasicsimple.model.ProductDto
 import com.example.viewmodelbasicsimple.model.ResponseListModelDto
 import com.example.viewmodelbasicsimple.model.ResponseModelDto
 import retrofit2.Call
