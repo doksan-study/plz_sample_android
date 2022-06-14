@@ -20,4 +20,11 @@ interface ProductService {
         @Path("productId") productId: Int
     ): Call<ResponseModelDto<Product>>
 
+    @GET("search/product")
+    fun searchProducts(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("word") word: String
+    ):Call<ResponseListModelDto<Product>>
+
 }

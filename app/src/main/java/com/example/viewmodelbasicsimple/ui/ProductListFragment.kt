@@ -47,8 +47,11 @@ class ProductListFragment : Fragment() {
         val viewModel = ViewModelProvider(this).get(ProductListViewModel::class.java)
         binding.productSearchBtn.setOnClickListener { _ ->
             // 검색
-            val searchText = binding.productSearchBox.text.toString()
-            viewModel.getProduct(searchText)
+            val searchText = binding.productSearchBox.text.toString().trimEnd()
+            if (searchText.isNullOrBlank())
+                return@setOnClickListener
+            // todo: 페이지네이션
+            viewModel.searchProducts(0, 10, searchText)
         }
 
         subscribeUi(viewModel.products)
