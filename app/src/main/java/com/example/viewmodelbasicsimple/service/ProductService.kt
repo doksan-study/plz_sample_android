@@ -9,10 +9,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProductService {
-    @GET("product/list")
+    // https://run.mocky.io/v3/caa53bd1-e927-46c6-a31f-8e33667770de
+    @GET("v3/caa53bd1-e927-46c6-a31f-8e33667770de")
+//    @GET("product/list")
     fun getProducts(
-        @Query("page") page: Int,
-        @Query("limit") limit: Int
+//        @Query("page") page: Int,
+//        @Query("limit") limit: Int
     ): Call<ResponseListModelDto<Product>>
 
     @GET("product/{productId}")
@@ -20,7 +22,9 @@ interface ProductService {
         @Path("productId") productId: Int
     ): Call<ResponseModelDto<Product>>
 
-    @GET("search/product")
+//    @GET("search/product")
+    // https://run.mocky.io/v3/0bcd88e8-2feb-4d1e-aa5e-78c0d2dd2387
+    @GET("v3/0bcd88e8-2feb-4d1e-aa5e-78c0d2dd2387")
     fun searchProducts(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
@@ -28,3 +32,4 @@ interface ProductService {
     ):Call<ResponseListModelDto<Product>>
 
 }
+
