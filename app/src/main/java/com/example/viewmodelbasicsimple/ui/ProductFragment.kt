@@ -19,6 +19,7 @@ class ProductFragment(private val productId: Int) : Fragment() {
     private lateinit var binding: FragmentProductBinding
     private lateinit var productViewModel: ProductViewModel
     private lateinit var productViewModelFactory: ProductViewModel.ViewModelFactory
+    private lateinit var commentListViewModelFactory: CommentListViewModel.ViewModelFactory
     private lateinit var commentListViewModel: CommentListViewModel
     private lateinit var commentAdapter: CommentAdapter
 
@@ -58,19 +59,22 @@ class ProductFragment(private val productId: Int) : Fragment() {
          * View will observe text changes at runtime.
          */
         binding.productViewModel = productViewModel
-//        subscribeToComments(commentListViewModel.comments)
+
+        /** Init `Comment List View Model` */
+        commentListViewModelFactory = CommentListViewModel.ViewModelFactory(productId)
+        commentListViewModel = ViewModelProvider(this, commentListViewModelFactory).get(CommentListViewModel::class.java)
+        subscribeToComments(commentListViewModel.comments)
     }
 
-//    private fun subscribeToComments(comments: LiveData<List<Comment>>) {
-//        comments.observe(viewLifecycleOwner){it ->
-//            if (it != null){
-//                commentAdapter.submitList(it)
-//            }
-//            else{
-//
-//            }
-//            binding.executePendingBindings()
-//        }
-//    }
+    private fun subscribeToComments(comments: LiveData<List<Comment>>) {
+        comments.observe(viewLifecycleOwner) { it ->
+            if (it != null) {
+                commentAdapter.submitList(it)
+            } else {
+
+            }
+            binding.executePendingBindings()
+        }
+    }
 
 }

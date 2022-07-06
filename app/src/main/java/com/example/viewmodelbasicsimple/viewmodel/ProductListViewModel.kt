@@ -25,8 +25,8 @@ class ProductListViewModel : ViewModel() {
 
     private fun loadProducts() {
         // REST API retrofit
-//        retrofit.create(ProductService::class.java).getProducts(1, 2)
-        retrofit.create(ProductService::class.java).getProducts()
+        retrofit.create(ProductService::class.java).getProducts(1, 2)
+//        retrofit.create(ProductService::class.java).getProducts()
             .enqueue(object : Callback<ResponseListModelDto<Product>> {
                 override fun onResponse(
                     call: Call<ResponseListModelDto<Product>>,

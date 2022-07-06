@@ -2,8 +2,6 @@ package com.example.viewmodelbasicsimple.model
 
 import com.google.gson.annotations.SerializedName
 
-class ResponseDto {
-}
 
 data class ResponseModelDto<T>(
     @SerializedName("message") val message: String,

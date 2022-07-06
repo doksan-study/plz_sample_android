@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="Comments List"
             android:orientation="vertical"
+            tools:listitem="@layout/comment_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </LinearLayout>
 </layout>
