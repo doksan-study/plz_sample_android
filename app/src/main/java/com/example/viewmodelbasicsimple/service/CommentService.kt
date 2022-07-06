@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface CommentService {
 
-    // https://run.mocky.io/v3/8690f99b-3ddb-4051-bb4d-60133f651ae2
     @GET("review/list")
     fun getComments(
         @Query("productId") productId: Int,

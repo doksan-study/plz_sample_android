@@ -35,7 +35,6 @@ class CommentListViewModel(private val productId: Int) : ViewModel() {
                     }
                     response.body()?.let {
                         _comments.postValue(it.items)
-                        Log.d(TAG, "ResponseModel>> ${it.items} ")
                         resultComments = it.items
                     }
                 }

@@ -8,12 +8,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-//    private const val BASE_URL = "https://run.mocky.io/"
     private const val BASE_URL = "http://54.202.190.192:3001/"
     private val interceptorClient = OkHttpClient().newBuilder().addInterceptor(RequestInterceptor())
         .addInterceptor(ResponseInterceptor()).build()
-
-//    private val interceptorClient = OkHttpClient().newBuilder().addInterceptor(LoggingInterceptor()).build()
 
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
