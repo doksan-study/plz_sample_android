@@ -51,7 +51,7 @@ class ProductListFragment : Fragment() {
             if (searchText.isNullOrBlank())
                 return@setOnClickListener
             // todo: 페이지네이션
-            viewModel.searchProducts(0, 10, searchText)
+            viewModel.searchProducts(1, 10, searchText)
         }
 
         subscribeUi(viewModel.products)
