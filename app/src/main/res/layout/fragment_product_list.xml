@@ -44,7 +44,7 @@
                 android:id="@+id/product_search_btn"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background=""
+                android:background="@color/transparent"
                 android:src="@drawable/ic_search_blue" />
         </LinearLayout>
 

@@ -37,11 +37,11 @@
                 tools:text="상품이름" />
 
             <TextView
+                price="@{product.price}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
-                android:text="@{String.valueOf(product.price)}"
                 tools:text="상품가격" />
 
             <TextView

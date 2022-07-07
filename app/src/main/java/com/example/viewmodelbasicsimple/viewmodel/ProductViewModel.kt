@@ -20,15 +20,12 @@ class ProductViewModel(private val productId: Int) : ViewModel() {
     val product: LiveData<Product>
         get() = _product
 
-    // todo 댓글에 대한 LiveData 필요
-
     init {
         loadProduct()
-        loadComments()
     }
 
-    private fun loadProduct() : Product?{
-        var resultProduct : Product? = null
+    private fun loadProduct(): Product? {
+        var resultProduct: Product? = null
         retrofit.create(ProductService::class.java).getProduct(productId)
             .enqueue(object : Callback<ResponseModelDto<Product>> {
                 override fun onResponse(
@@ -56,10 +53,6 @@ class ProductViewModel(private val productId: Int) : ViewModel() {
 
     }
 
-    private fun loadComments() {
-
-    }
-
     class ViewModelFactory(private val productId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
@@ -71,5 +64,24 @@ class ProductViewModel(private val productId: Int) : ViewModel() {
 
     companion object {
         const val TAG = "ProductViewModel-TAG"
+
+        fun intToPriceString(cost: Int): String {
+            var tempList = ArrayList<Char>()
+            var tempCost = cost
+            var tempIdx = 0
+            while (tempCost > 0) {
+                tempIdx++
+                val num = tempCost % 10
+                tempCost /= 10
+                tempList.add((num.digitToChar()))
+                if (tempIdx % 3 == 0) tempList.add(',')
+            }
+
+            var result = "원"
+            for (ch in tempList)
+                result = ch + result
+
+            return result
+        }
     }
 }
