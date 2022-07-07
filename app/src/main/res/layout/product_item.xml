@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,20 +30,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Name of the product"
-                android:text="@{product.name}" />
+                android:text="@{product.name}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="상품이름" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
-                android:text="@{String.valueOf(product.price)}" />
+                android:text="@{String.valueOf(product.price)}"
+                tools:text="상품가격" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:text="@{product.description}" />
+                android:layout_marginTop="5dp"
+                android:text="@{product.description}"
+                android:textColor="@color/black"
+                tools:text="상품 설명" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
